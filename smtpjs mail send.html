@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SMTPJS SEND MAIL FROM GMAIL</title>
+
+    <!-- SMTPJS CDN -->
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+</head>
+
+<body>
+
+    <button onclick="sendmail()">Send Mail</button>
+
+
+    <script>
+        var mail = "thededar@gmail.com";
+        function sendmail() {
+            Email.send({
+                Host: "smtp.gmail.com", //for gmail use
+                Username: "dedar3000@gmail.com", //gmail name
+                Password: "01719972285", //gmail password
+                To: mail, //receiver gmail
+                From: "dedar3000@gmail.com", //sender gmail
+                Subject: "This is the subject", //gmail subject
+                Body: "Yo!!" //gmail body
+            }).then(
+                message => alert(message)
+            );
+        }
+    </script>
+</body>
+
+</html>

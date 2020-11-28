@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Add Favicon -->
+    <link rel='icon' href='img/cloud-computing-upload-download-connecting-512.png' type='image/x-icon' />
+
+    <!-- Firebase CDN  -->
+    <script src="https://www.gstatic.com/firebasejs/7.0.0/firebase-app.js"></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+    <script src="https://www.gstatic.com/firebasejs/7.0.0/firebase-storage.js"></script>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"> </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- Forntawesome CDN -->
+    <script src="https://kit.fontawesome.com/b1cb080696.js"></script>
+
+    <!-- SMTPJS CDN -->
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+
+    <title>Upload & Download</title>
+    <style>
+        .progress {
+            width: auto;
+        }
+
+        .icon {
+            height: 50px;
+            width: 50px;
+            float: left;
+            text-align: center;
+            position: relative;
+            background-color: rgb(252, 249, 239);
+            line-height: 50px;
+            border: .5px solid;
+            margin: 5px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">
+                <img src="img/cloud-computing-upload-download-connecting-512.png" width="30" height="30"
+                    class="d-inline-block align-top" alt="">
+                Upload & Download
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" data-toggle="modal" data-target="#modelId" href="#"><i
+                                class="fas fa-cloud-upload-alt"></i> Upload<span class="sr-only">(current)</span></a>
+
+                    </li>
+                </ul>
+        </nav>
+
+        <!-- Button trigger modal -->
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i class="fas fa-cloud-upload-alt"></i> File Upload</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <form action="">
+                                <div class="form-group">
+                                    <input type="file" class="form-control-file" name="" id="file"
+                                        placeholder="Select File">
+                                </div>
+                                <div>
+                                    <progress class="progress" role="progressbar" width="400px" id="progressbar"
+                                        value="0" max="100"></progress>
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <button class="btn btn-primary btn-block" onclick="upload()"
+                                        type="button">Upload</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div>
+
+            <div class="input-group md-form form-sm form-1 pl-0">
+                <div class="input-group-prepend">
+                    <span class="input-group-text purple lighten-3" id="basic-text1"><i class="fas fa-search text-white"
+                            aria-hidden="true"></i></span>
+                </div>
+                <input onkeyup="myFunction2()" id="myInput" class="form-control my-0 py-1" type="text"
+                    placeholder="Search" aria-label="Search">
+            </div>
+
+        </div>
+
+        <div class="table-responsive">
+            <table class="table" id="myTable">
+                <thead>
+                    <tr>
+                        <th>File Name</th>
+                        <th>Download</th>
+                    </tr>
+                </thead>
+                <tbody id="table-area">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+    <script>
+        $('#exampleModal').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            // Use above variables to manipulate the DOM
+
+        });
+    </script>
+    </div>
+
+<button onclick="sendmail()">Send Mail</button>
+</body>
+
+</html>
+
+
+<script>
+    var downloadlink;
+    //Firebase Config
+    var firebaseConfig = {
+        apiKey: "AIzaSyCmGDx0-41Kkvu5Y8vPQ7AtvAdQRXN80Es",
+        authDomain: "randomupload-131bd.firebaseapp.com",
+        databaseURL: "https://randomupload-131bd.firebaseio.com",
+        projectId: "randomupload-131bd",
+        storageBucket: "randomupload-131bd.appspot.com",
+        messagingSenderId: "160565533596",
+        appId: "1:160565533596:web:d9813745310729f5678659",
+        measurementId: "G-00BGQ004W7"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    // Get a reference to the storage service, which is used to create references in your storage bucket
+    var storage = firebase.storage();
+
+    function upload() {
+        //Get Element From HTML Form Based on ID
+        var image = document.getElementById("file").files[0];
+        var progressbar = document.getElementById("progressbar");
+
+        //now get your image name
+        var imageName = image.name;
+
+        //firebase  storage reference
+        //it is the path where yyour image will store
+        var storageRef = firebase.storage().ref('images/' + imageName);
+
+        //upload image to selected storage reference
+        var uploadTask = storageRef.put(image);
+
+        // Listen for state changes, errors, and completion of the upload.
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+            function (snapshot) {
+                // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                progressbar.value = progress;
+                console.log('Upload is ' + progress + '% done');
+                switch (snapshot.state) {
+                    case firebase.storage.TaskState.PAUSED: // or 'paused'
+                        console.log('Upload is paused');
+                        break;
+                    case firebase.storage.TaskState.RUNNING: // or 'running'
+                        console.log('Upload is running');
+                        break;
+                }
+            },
+            function (error) {
+
+                // A full list of error codes is available at
+                // https://firebase.google.com/docs/storage/web/handle-errors
+                switch (error.code) {
+                    case 'storage/unauthorized':
+                        // User doesn't have permission to access the object
+                        break;
+
+                    case 'storage/canceled':
+                        // User canceled the upload
+                        break;
+
+                    case 'storage/unknown':
+                        // Unknown error occurred, inspect error.serverResponse
+                        break;
+                }
+            },
+            function () {
+                // Upload completed successfully, now we can get the download URL
+                uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+                    console.log('File available at', downloadURL);
+                    downloadlink = downloadURL;
+                    //location.reload(true);
+                });
+            });
+
+    }
+
+
+
+    window.onload = function myfunction() {
+        var img = '';
+        var img_index = 1;
+        var storageRef = firebase.storage().ref();
+        var listRef = storageRef.child('images');
+        listRef.listAll().then(function (result) {
+            //console.log(result);
+            result.items.forEach(function (imgRef) {
+                imgRef.getDownloadURL().then(function (url) {
+
+                    img += '<tr> <td> <p>' + imgRef.name + '</p></td>';
+                    img += '<td> <a href="' + url + '">Download</a> </td> </tr>';
+                    img_index++;
+
+                    document.getElementById("table-area").innerHTML = img;
+
+                });
+
+                // Get metadata properties
+                imgRef.getMetadata().then(function (metadata) {
+                    // Metadata now contains the metadata for 'images/forest.jpg'
+                    console.log(metadata.generation);
+                    console.log();
+
+                }).catch(function (error) {
+                    // Uh-oh, an error occurred!
+                });
+
+            })
+
+        }).catch(function (error) {
+            console.log(error);
+        });
+
+    }
+</script>
+
+
+
+
+<script>
+    function myFunction2() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+
+
+<script>
+        function sendmail() {
+            Email.send({
+                Host: "smtp.gmail.com", //for gmail use
+                Username: "dedar3000@gmail.com", //gmail name
+                Password: "01719972285", //gmail password
+                To: 'thededar@gmail.com', //receiver gmail
+                From: "dedar3000@gmail.com", //sender gmail
+                Subject: "This is the subject", //gmail subject
+                Body: '<button style="background-color: #4CAF50; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;"><a href="' + downloadlink + '">Download</a></button> <br> <strong>This File is Wipe After 6 Months<strong>' //gmail body
+            }).then(
+                message => alert(message)
+            );
+        }
+</script>
+
+
+<script>
+ var storageRef = firebase.storage().ref();
+        var listRef = storageRef.child('images');
+
+// Delete the file
+listRef.delete().then(function() {
+  // File deleted successfully
+}).catch(function(error) {
+  // Uh-oh, an error occurred!
+})
+
+
+</script>
